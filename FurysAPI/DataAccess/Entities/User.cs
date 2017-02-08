@@ -11,7 +11,14 @@ namespace FurysAPI.DataAccess.Entities
 {
     public class User : IdentityUser
     {
-
+        public virtual string FirstName { get; set; }
+        public virtual string  LastName { get; set; }
+        public virtual DateTime Birthday { get; set; }
+        public virtual string ProfilePhoto { get; set; }
+        public virtual bool Online { get; set; }
+        public virtual string Gender { get; set; }
+        public virtual bool LocationEnabled { get; set; }
+          
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

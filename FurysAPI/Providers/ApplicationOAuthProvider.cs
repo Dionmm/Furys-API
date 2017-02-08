@@ -9,7 +9,7 @@ using Microsoft.Owin.Security.OAuth;
 using FurysAPI.App_Start;
 using FurysAPI.DataAccess.Entities;
 
-namespace PhotoShare.Providers
+namespace FurysAPI.Providers
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {

@@ -152,6 +152,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="DataAccess\DataContext\FurysApiDbContext.cs" />
     <Compile Include="DataAccess\Entities\User.cs" />
+    <Compile Include="Migrations\201702081504123_Initial.cs" />
+    <Compile Include="Migrations\201702081504123_Initial.Designer.cs">
+      <DependentUpon>201702081504123_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Startup.cs" />
@@ -159,8 +164,12 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="DataAccess\Repositories\" />
-    <Folder Include="Migrations\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201702081504123_Initial.resx">
+      <DependentUpon>201702081504123_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
