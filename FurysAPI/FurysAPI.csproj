@@ -144,17 +144,29 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="DataAccess\DataContext\FurysApiDbContext.cs" />
+    <Compile Include="DataAccess\Entities\BaseEntity.cs" />
+    <Compile Include="DataAccess\Entities\BasketContents.cs" />
+    <Compile Include="DataAccess\Entities\Drink.cs" />
+    <Compile Include="DataAccess\Entities\DrinkComponent.cs" />
+    <Compile Include="DataAccess\Entities\DrinkRecipe.cs" />
+    <Compile Include="DataAccess\Entities\Order.cs" />
     <Compile Include="DataAccess\Entities\User.cs" />
     <Compile Include="Migrations\201702081504123_Initial.cs" />
     <Compile Include="Migrations\201702081504123_Initial.Designer.cs">
       <DependentUpon>201702081504123_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703061903485_AddingEntities.cs" />
+    <Compile Include="Migrations\201703061903485_AddingEntities.Designer.cs">
+      <DependentUpon>201703061903485_AddingEntities.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -169,6 +181,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201702081504123_Initial.resx">
       <DependentUpon>201702081504123_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703061903485_AddingEntities.resx">
+      <DependentUpon>201703061903485_AddingEntities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

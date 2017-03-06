@@ -15,13 +15,13 @@ namespace FurysAPI.DataAccess.DataContext
         {
             //this.Configuration.LazyLoadingEnabled = false;
         }
-        /*
-        public virtual DbSet<BannedWord> BannedWords { get; set; }
-        public virtual DbSet<ExifData> ExifData { get; set; }
-        public virtual DbSet<Message> Messages { get; set; }
-        public virtual DbSet<Photo> Photos { get; set; }
-        public virtual DbSet<Purchase> Purchases { get; set; }
-        */
+        
+        public virtual DbSet<BasketContents> BasketContents { get; set; }
+        public virtual DbSet<Drink> Drinks { get; set; }
+        public virtual DbSet<DrinkComponent> DrinkComponents { get; set; }
+        public virtual DbSet<DrinkRecipe> DrinkRecipes { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        
         public static FurysApiDbContext Create()
         {
             return new FurysApiDbContext();
