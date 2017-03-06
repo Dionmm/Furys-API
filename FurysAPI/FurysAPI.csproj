@@ -160,12 +160,17 @@
     <Compile Include="DataAccess\Entities\DrinkRecipe.cs" />
     <Compile Include="DataAccess\Entities\Order.cs" />
     <Compile Include="DataAccess\Entities\User.cs" />
+    <Compile Include="DataAccess\Repositories\BasketContentsRepository.cs" />
+    <Compile Include="DataAccess\Repositories\DrinkComponentRepository.cs" />
+    <Compile Include="DataAccess\Repositories\DrinkRecipeRepository.cs" />
+    <Compile Include="DataAccess\Repositories\DrinkRepository.cs" />
     <Compile Include="DataAccess\Repositories\Interfaces\IBasketContentsRepository.cs" />
     <Compile Include="DataAccess\Repositories\Interfaces\IDrinkComponentRepository.cs" />
     <Compile Include="DataAccess\Repositories\Interfaces\IDrinkRecipeRepository.cs" />
     <Compile Include="DataAccess\Repositories\Interfaces\IDrinkRepository.cs" />
     <Compile Include="DataAccess\Repositories\Interfaces\IOrderRepository.cs" />
     <Compile Include="DataAccess\Repositories\Interfaces\IRepository.cs" />
+    <Compile Include="DataAccess\Repositories\OrderRepository.cs" />
     <Compile Include="DataAccess\Repositories\Repository.cs" />
     <Compile Include="Migrations\201702081504123_Initial.cs" />
     <Compile Include="Migrations\201702081504123_Initial.Designer.cs">
