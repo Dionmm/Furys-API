@@ -160,6 +160,8 @@
     <Compile Include="DataAccess\Entities\DrinkRecipe.cs" />
     <Compile Include="DataAccess\Entities\Order.cs" />
     <Compile Include="DataAccess\Entities\User.cs" />
+    <Compile Include="DataAccess\Repositories\Interfaces\IRepository.cs" />
+    <Compile Include="DataAccess\Repositories\Repository.cs" />
     <Compile Include="Migrations\201702081504123_Initial.cs" />
     <Compile Include="Migrations\201702081504123_Initial.Designer.cs">
       <DependentUpon>201702081504123_Initial.cs</DependentUpon>
@@ -175,7 +177,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="DataAccess\Repositories\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
