@@ -47,6 +47,7 @@ namespace FurysAPI.Migrations
 
         protected override void Seed(FurysAPI.DataAccess.DataContext.FurysApiDbContext context)
         {
+            var timezone = new CultureInfo("en-GB");
             var dion = new User
             {
                 UserName = "Dionmm",
@@ -54,7 +55,7 @@ namespace FurysAPI.Migrations
                 PhoneNumber = "07881913156",
                 FirstName = "Dion",
                 LastName = "MacIntyre",
-                Birthday = Convert.ToDateTime("23/04/1994"),
+                Birthday = Convert.ToDateTime("23/04/1994", timezone),
                 Online = false,
                 LocationEnabled = false
             };
@@ -63,7 +64,7 @@ namespace FurysAPI.Migrations
                 UserName = "JackBlack",
                 Email = "jack@macinty.re",
                 PhoneNumber = "07881913134",
-                Birthday = Convert.ToDateTime("13/10/1994"),
+                Birthday = Convert.ToDateTime("13/10/1994", timezone),
                 Online = false,
                 LocationEnabled = false
             };

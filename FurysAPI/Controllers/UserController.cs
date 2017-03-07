@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -87,10 +88,17 @@ namespace FurysAPI.Controllers
             //Grab the birthdate or set it to the default (Greatest day in history)
             var birthdate = model.Birthday ?? "23/04/1994";
 
+            //ASP decides how to convert dates based on the system settings of the production environment. As the
+            //server is based in US it will be MM-DD-YYYY whereas we would much prefer a more logical layout of
+            //DD-MM-YYYY. To override this the cultureinfo object is inserted into the Convert.ToDateTime to
+            //specify what format to use, although it may be better to actually change the system settings, this will
+            //do for now
+            var gbDateFormat = new CultureInfo("en-GB");
+
             var user = new User()
             {
                 UserName = model.UserName,
-                Birthday = Convert.ToDateTime(birthdate),
+                Birthday = Convert.ToDateTime(birthdate, gbDateFormat),
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
@@ -108,7 +116,7 @@ namespace FurysAPI.Controllers
 
             await UserManager.AddToRoleAsync(user.Id, defaultRole);
 
-            return Ok();
+            return Ok("Registration successful");
         }
 
         [Route("ChangePassword")]
