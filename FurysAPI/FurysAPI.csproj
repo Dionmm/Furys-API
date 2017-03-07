@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\FurysAPIAzure.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -152,6 +153,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DataAccess\DataContext\FurysApiDbContext.cs" />
     <Compile Include="DataAccess\Entities\BaseEntity.cs" />
     <Compile Include="DataAccess\Entities\BasketContents.cs" />
@@ -183,14 +185,14 @@
       <DependentUpon>201703061903485_AddingEntities.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\User\ChangeNameBindingModel.cs" />
+    <Compile Include="Models\User\ChangePasswordBindingModel.cs" />
+    <Compile Include="Models\User\RegisterBindingModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201702081504123_Initial.resx">
       <DependentUpon>201702081504123_Initial.cs</DependentUpon>

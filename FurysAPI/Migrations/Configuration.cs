@@ -1,7 +1,11 @@
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Globalization;
+using FurysAPI.App_Start;
+using FurysAPI.DataAccess.DataContext;
 using FurysAPI.DataAccess.Entities;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace FurysAPI.Migrations
 {
@@ -15,6 +19,30 @@ namespace FurysAPI.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+        }
+        private void AddUser(FurysApiDbContext context, User user, string password, string roleName)
+        {
+            var userManager = new ApplicationUserManager(new UserStore<User>(context));
+
+            if (userManager.FindByName(user.UserName) == null)
+            {
+                var identityResult = userManager.Create(user, password);
+                if (identityResult.Succeeded)
+                {
+                    var currentUser = userManager.FindByName(user.UserName);
+                    var roleResult = userManager.AddToRole(currentUser.Id, roleName);
+                }
+            }
+        }
+
+        private void AddRole(FurysApiDbContext context, string roleName)
+        {
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+
+            if (!roleManager.RoleExists(roleName))
+            {
+                IdentityResult roleResult = roleManager.Create(new IdentityRole(roleName));
+            }
         }
 
         protected override void Seed(FurysAPI.DataAccess.DataContext.FurysApiDbContext context)
@@ -204,8 +232,10 @@ namespace FurysAPI.Migrations
                 Order = order1
             };
 
-            /*context.Users.AddOrUpdate(dion);
-            context.Users.AddOrUpdate(jack); //Migration breaks when AddorUpdate a user: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+            AddRole(context, "Customer");
+            AddRole(context, "Admin");
+            AddUser(context, dion, "password", "Customer");
+            AddUser(context, jack, "password", "Admin");
 
             context.Drinks.AddOrUpdate(drink1);
             context.Drinks.AddOrUpdate(drink2);
@@ -230,7 +260,7 @@ namespace FurysAPI.Migrations
 
             context.BasketContents.AddOrUpdate(contents1);
             context.BasketContents.AddOrUpdate(contents2);
-            context.BasketContents.AddOrUpdate(contents3);*/
+            context.BasketContents.AddOrUpdate(contents3);
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
