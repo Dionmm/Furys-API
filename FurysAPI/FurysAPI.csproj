@@ -153,6 +153,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\DrinkController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DataAccess\DataContext\FurysApiDbContext.cs" />
     <Compile Include="DataAccess\Entities\BaseEntity.cs" />
@@ -185,6 +186,9 @@
       <DependentUpon>201703061903485_AddingEntities.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\DrinkModels\DrinkModel.cs" />
+    <Compile Include="Models\IModelFactory.cs" />
+    <Compile Include="Models\ModelFactory.cs" />
     <Compile Include="Models\User\ChangeNameBindingModel.cs" />
     <Compile Include="Models\User\ChangePasswordBindingModel.cs" />
     <Compile Include="Models\User\RegisterBindingModel.cs" />
