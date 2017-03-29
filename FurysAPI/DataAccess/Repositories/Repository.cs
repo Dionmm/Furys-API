@@ -18,7 +18,7 @@ namespace FurysAPI.DataAccess.Repositories
             _entities = Context.Set<T>();
         }
 
-        public T Get(int id)
+        public T Get(Guid id)
         {
             return _entities.Find(id);
         }

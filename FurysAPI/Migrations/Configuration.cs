@@ -74,6 +74,7 @@ namespace FurysAPI.Migrations
                 Id = Guid.NewGuid(),
                 Name = "Jack Daniels Coke",
                 Price = 3.5m,
+                BeverageType = "Spirit",
                 CreatedDateTime = DateTime.Now,
                 UpdatedDateTime = DateTime.Now,
 
@@ -83,6 +84,7 @@ namespace FurysAPI.Migrations
                 Id = Guid.NewGuid(),
                 Name = "Vodka Lemonade",
                 Price = 2,
+                BeverageType = "Spirit",
                 CreatedDateTime = DateTime.Now,
                 UpdatedDateTime = DateTime.Now
             };
@@ -91,6 +93,7 @@ namespace FurysAPI.Migrations
                 Id = Guid.NewGuid(),
                 Name = "Vodka Blackcurrent Lime",
                 Price = 2,
+                BeverageType = "Spirit",
                 CreatedDateTime = DateTime.Now,
                 UpdatedDateTime = DateTime.Now
             };
@@ -99,6 +102,7 @@ namespace FurysAPI.Migrations
                 Id = Guid.NewGuid(),
                 Name = "Vodka Irn Bru",
                 Price = 2,
+                BeverageType = "Spirit",
                 CreatedDateTime = DateTime.Now,
                 UpdatedDateTime = DateTime.Now
             };
@@ -107,6 +111,7 @@ namespace FurysAPI.Migrations
                 Id = Guid.NewGuid(),
                 Name = "Southern Comfort Lemonade",
                 Price = 2,
+                BeverageType = "Spirit",
                 CreatedDateTime = DateTime.Now,
                 UpdatedDateTime = DateTime.Now
             };
@@ -115,14 +120,16 @@ namespace FurysAPI.Migrations
                 Id = Guid.NewGuid(),
                 Name = "Rum Coke",
                 Price = 2,
+                BeverageType = "Spirit",
                 CreatedDateTime = DateTime.Now,
                 UpdatedDateTime = DateTime.Now
             };
             var drink7 = new Drink
             {
                 Id = Guid.NewGuid(),
-                Name = "Beer",
+                Name = "Tennants",
                 Price = 2,
+                BeverageType = "Beer",
                 CreatedDateTime = DateTime.Now,
                 UpdatedDateTime = DateTime.Now
             };

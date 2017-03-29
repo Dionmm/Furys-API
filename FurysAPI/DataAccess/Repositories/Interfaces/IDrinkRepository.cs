@@ -9,5 +9,6 @@ namespace FurysAPI.DataAccess.Repositories.Interfaces
 {
     public interface IDrinkRepository: IRepository<Drink>
     {
+        IEnumerable<Drink> GetByBeverageType(string beverageType, int pageSize, int page);
     }
 }

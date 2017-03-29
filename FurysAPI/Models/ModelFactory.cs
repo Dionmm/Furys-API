@@ -14,7 +14,8 @@ namespace FurysAPI.Models
             return new Drink
             {
                 Name = model.Name,
-                Price = model.Price
+                Price = model.Price,
+                BeverageType = model.BeverageType
             };
         }
 
@@ -24,7 +25,8 @@ namespace FurysAPI.Models
             {
                 Name = drink.Name,
                 Price = drink.Price,
-                Id = drink.Id
+                Id = drink.Id,
+                BeverageType = drink.BeverageType
             };
         }
 
@@ -34,7 +36,8 @@ namespace FurysAPI.Models
             {
                 Name = drink.Name,
                 Price = drink.Price,
-                Id = drink.Id
+                Id = drink.Id,
+                BeverageType = drink.BeverageType
             });
         }
     }

@@ -185,6 +185,10 @@
     <Compile Include="Migrations\201703061903485_AddingEntities.Designer.cs">
       <DependentUpon>201703061903485_AddingEntities.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703291301082_AddedBevType.cs" />
+    <Compile Include="Migrations\201703291301082_AddedBevType.Designer.cs">
+      <DependentUpon>201703291301082_AddedBevType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DrinkModels\DrinkModel.cs" />
     <Compile Include="Models\IModelFactory.cs" />
@@ -203,6 +207,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703061903485_AddingEntities.resx">
       <DependentUpon>201703061903485_AddingEntities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703291301082_AddedBevType.resx">
+      <DependentUpon>201703291301082_AddedBevType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
