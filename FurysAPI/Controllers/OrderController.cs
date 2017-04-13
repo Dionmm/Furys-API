@@ -92,7 +92,21 @@ namespace FurysAPI.Controllers
             };
             UnitOfWork.Orders.Add(order);
 
-            var stripeCharge = CreateStripeCharge(order.TotalCost, order.Id, model.Token);
+            var myToken = new StripeTokenCreateOptions
+            {
+                Card = new StripeCreditCardOptions()
+                {
+                    Number = "4242424242424242",
+                    ExpirationYear = "2022",
+                    ExpirationMonth = "10",
+                    Cvc = "123"
+                }
+            };
+
+            var tokenService = new StripeTokenService();
+            var stripeToken = tokenService.Create(myToken);
+
+            var stripeCharge = CreateStripeCharge(order, stripeToken.Id);
             if (stripeCharge == "succeeded")
             {
                 order.Paid = true;
@@ -123,30 +137,15 @@ namespace FurysAPI.Controllers
 
 
 
-        private static string CreateStripeCharge(decimal amount, Guid photoName, string token, string currency = "gbp")
+        private static string CreateStripeCharge(Order order, string token, string currency = "gbp")
         {
-            var myToken = new StripeTokenCreateOptions
-            {
-                Card = new StripeCreditCardOptions()
-                {
-                    Number = "4242424242424242",
-                    ExpirationYear = "2022",
-                    ExpirationMonth = "10",
-                    Cvc = "123"
-                }
-            };
-
-            // if you need this...
-
-            var tokenService = new StripeTokenService();
             try
             {
-                var stripeToken = tokenService.Create(myToken);
                 var charge = new StripeChargeCreateOptions
                 {
-                    Amount = Convert.ToInt32(amount * 100),
-                    Description = "Purchase of " + photoName,
-                    SourceTokenOrExistingSourceId = stripeToken.Id,
+                    Amount = Convert.ToInt32(order.TotalCost * 100),
+                    Description = "Order " + order.Id + " by " + order.User.Email,
+                    SourceTokenOrExistingSourceId = token,
                     Currency = currency
                 };
 
