@@ -12,7 +12,7 @@ using FurysAPI.App_Start;
 using FurysAPI.DataAccess;
 using FurysAPI.DataAccess.DataContext;
 using FurysAPI.DataAccess.Entities;
-using FurysAPI.Models.User;
+using FurysAPI.Models.UserModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;

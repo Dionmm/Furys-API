@@ -209,10 +209,11 @@ namespace FurysAPI.Migrations
                 UpdatedDateTime = DateTime.Now,
                 Id = Guid.NewGuid(),
                 OrderCompletedTime = DateTime.Now,
-                OrderNumber = "33",
+                OrderNumber = 33,
                 OrderWord = "Explorer",
                 TotalCost = 6,
-                User = jack
+                User = jack,
+                Paid = false
             };
 
             var contents1 = new BasketContents

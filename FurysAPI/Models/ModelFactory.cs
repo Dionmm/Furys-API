@@ -40,5 +40,14 @@ namespace FurysAPI.Models
                 BeverageType = drink.BeverageType
             });
         }
+
+        //This only needs the Id for now, can implement db lookups for the null values later if needed
+        public IEnumerable<Drink> Create(IEnumerable<DrinkModel> models)
+        {
+            return models.Select(model => new Drink
+            {
+                Id = model.Id
+            });
+        }
     }
 }

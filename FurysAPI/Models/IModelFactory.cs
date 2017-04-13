@@ -14,6 +14,7 @@ namespace FurysAPI.Models
         Drink Create(DrinkModel model);
         DrinkModel Create(Drink drink);
         IEnumerable<DrinkModel> Create(IEnumerable<Drink> drinks);
+        IEnumerable<Drink> Create(IEnumerable<DrinkModel> models);
 
     }
 }

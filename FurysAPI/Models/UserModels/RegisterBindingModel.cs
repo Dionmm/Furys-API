@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace FurysAPI.Models.User
+namespace FurysAPI.Models.UserModels
 {
     public class RegisterBindingModel
     {
