@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -10,8 +11,10 @@ using FurysAPI.DataAccess.DataContext;
 using FurysAPI.DataAccess.Entities;
 using FurysAPI.Models;
 using FurysAPI.Models.DrinkModels;
+using FurysAPI.Models.OrderModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Stripe;
 
 namespace FurysAPI.Controllers
 {
@@ -32,40 +35,24 @@ namespace FurysAPI.Controllers
 
         public ApplicationUserManager UserManager
         {
-            get
-            {
-                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
+            get { return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
+            private set { _userManager = value; }
         }
+
         public FurysApiDbContext Context
         {
-            get
-            {
-                return _context ?? Request.GetOwinContext().Request.Context.Get<FurysApiDbContext>();
-            }
-            private set
-            {
-                _context = value;
-            }
+            get { return _context ?? Request.GetOwinContext().Request.Context.Get<FurysApiDbContext>(); }
+            private set { _context = value; }
         }
+
         public IUnitOfWork UnitOfWork
         {
-            get
-            {
-                return _unitOfWork ?? new UnitOfWork(Context);
-            }
-            private set
-            {
-                _unitOfWork = value;
-            }
+            get { return _unitOfWork ?? new UnitOfWork(Context); }
+            private set { _unitOfWork = value; }
         }
 
         [HttpPost]
-        public IHttpActionResult CreateOrder(IEnumerable<DrinkModel> models)
+        public IHttpActionResult CreateOrder(OrderModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -81,7 +68,7 @@ namespace FurysAPI.Controllers
 
 
             List<Drink> drinks = new List<Drink>();
-            drinks.AddRange(models.Select(model => UnitOfWork.Drinks.Get(model.Id)));
+            drinks.AddRange(model.Drinks.Select(drink => UnitOfWork.Drinks.Get(drink.Id)));
             if (drinks.Contains(null))
             {
                 return BadRequest();
@@ -105,10 +92,21 @@ namespace FurysAPI.Controllers
             };
             UnitOfWork.Orders.Add(order);
 
+            var stripeCharge = CreateStripeCharge(order.TotalCost, order.Id, model.Token);
+            if (stripeCharge == "succeeded")
+            {
+                order.Paid = true;
+                order.UpdatedDateTime = DateTime.Now;
+            }
+
             List<BasketContents> basket = new List<BasketContents>();
             basket.AddRange(drinks.Select(drink => new BasketContents
             {
-                Id = Guid.NewGuid(), Drink = drink, Order = order, CreatedDateTime = DateTime.Now, UpdatedDateTime = DateTime.Now
+                Id = Guid.NewGuid(),
+                Drink = drink,
+                Order = order,
+                CreatedDateTime = DateTime.Now,
+                UpdatedDateTime = DateTime.Now
             }));
 
             UnitOfWork.BasketContents.AddRange(basket);
@@ -118,9 +116,49 @@ namespace FurysAPI.Controllers
                 return InternalServerError();
             }
 
-            return Ok(order.Id);
+            return Ok(stripeCharge);
         }
 
 
+
+        private static string CreateStripeCharge(decimal amount, Guid photoName, string token, string currency = "gbp")
+        {
+            var myToken = new StripeTokenCreateOptions
+            {
+                Card = new StripeCreditCardOptions()
+                {
+                    Number = "424242422424242",
+                    ExpirationYear = "2022",
+                    ExpirationMonth = "10",
+                    Cvc = "123"
+                }
+            };
+
+            // if you need this...
+
+            var tokenService = new StripeTokenService();
+            try
+            {
+                var stripeToken = tokenService.Create(myToken);
+                var charge = new StripeChargeCreateOptions
+                {
+                    Amount = Convert.ToInt32(amount * 100),
+                    Description = "Purchase of " + photoName,
+                    SourceTokenOrExistingSourceId = stripeToken.Id,
+                    Currency = currency
+                };
+
+                var chargeService = new StripeChargeService();
+                var stripeCharge = chargeService.Create(charge);
+
+                //Can return 'succeeded', 'pending' or 'failed'
+                return stripeCharge.Status;
+            }
+            catch (Exception ex)
+            {
+                Debug.Write(ex);
+                return "Payment failed";
+            }
+        }
     }
 }
