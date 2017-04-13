@@ -116,7 +116,9 @@ namespace FurysAPI.Controllers
                 return InternalServerError();
             }
 
-            return Ok(stripeCharge);
+            var orderModel = _modelFactory.Create(stripeCharge, order.OrderWord, order.OrderNumber);
+
+            return Ok(orderModel);
         }
 
 
@@ -127,7 +129,7 @@ namespace FurysAPI.Controllers
             {
                 Card = new StripeCreditCardOptions()
                 {
-                    Number = "424242422424242",
+                    Number = "4242424242424242",
                     ExpirationYear = "2022",
                     ExpirationMonth = "10",
                     Cvc = "123"

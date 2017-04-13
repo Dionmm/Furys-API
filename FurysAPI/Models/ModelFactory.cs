@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using FurysAPI.DataAccess.Entities;
 using FurysAPI.Models.DrinkModels;
+using FurysAPI.Models.OrderModels;
 
 namespace FurysAPI.Models
 {
@@ -48,6 +49,16 @@ namespace FurysAPI.Models
             {
                 Id = model.Id
             });
+        }
+
+        public OrderCompleteModel Create(string result, string word, int orderNumber)
+        {
+            return new OrderCompleteModel
+            {
+                Result = result,
+                OrderNumber = orderNumber,
+                OrderWord = word
+            };
         }
     }
 }

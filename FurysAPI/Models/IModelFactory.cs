@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FurysAPI.DataAccess.Entities;
 using FurysAPI.Models.DrinkModels;
+using FurysAPI.Models.OrderModels;
 
 namespace FurysAPI.Models
 {
@@ -15,6 +16,6 @@ namespace FurysAPI.Models
         DrinkModel Create(Drink drink);
         IEnumerable<DrinkModel> Create(IEnumerable<Drink> drinks);
         IEnumerable<Drink> Create(IEnumerable<DrinkModel> models);
-
+        OrderCompleteModel Create(string result, string word, int orderNumber);
     }
 }
