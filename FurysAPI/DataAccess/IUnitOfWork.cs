@@ -14,7 +14,6 @@ namespace FurysAPI.DataAccess
         IDrinkRecipeRepository DrinkRecipes { get; }
         IDrinkRepository Drinks { get; }
         IOrderRepository Orders { get; }
-
         int Save();
     }
 }

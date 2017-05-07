@@ -92,6 +92,7 @@ namespace FurysAPI.Controllers
             };
             UnitOfWork.Orders.Add(order);
 
+            //Remove between here
             var myToken = new StripeTokenCreateOptions
             {
                 Card = new StripeCreditCardOptions()
@@ -105,6 +106,7 @@ namespace FurysAPI.Controllers
 
             var tokenService = new StripeTokenService();
             var stripeToken = tokenService.Create(myToken);
+            //Remove
 
             var stripeCharge = CreateStripeCharge(order, stripeToken.Id);
             if (stripeCharge == "succeeded")
