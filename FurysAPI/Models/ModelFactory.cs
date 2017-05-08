@@ -51,13 +51,14 @@ namespace FurysAPI.Models
             });
         }
 
-        public OrderCompleteModel Create(string result, string word, int orderNumber)
+        public OrderCompleteModel Create(string result, string word, int orderNumber, Guid orderId)
         {
             return new OrderCompleteModel
             {
                 Result = result,
                 OrderNumber = orderNumber,
-                OrderWord = word
+                OrderWord = word,
+                OrderId = orderId
             };
         }
 

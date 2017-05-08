@@ -88,7 +88,7 @@ namespace FurysAPI.Hubs
         {
             try
             {
-                Clients.Caller.orderDetails("testing "+ id);
+                Clients.Caller.orderDetails("testingas "+ id);
 
                 var order = UnitOfWork.Orders.GetOrderDetails(id);
                 

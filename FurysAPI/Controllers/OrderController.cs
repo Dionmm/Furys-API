@@ -131,8 +131,8 @@ namespace FurysAPI.Controllers
             {
                 return InternalServerError();
             }
-
-            var orderModel = _modelFactory.Create(stripeCharge, order.OrderWord, order.OrderNumber);
+            
+            var orderModel = _modelFactory.Create(stripeCharge, order.OrderWord, order.OrderNumber, order.Id);
 
             return Ok(orderModel);
         }

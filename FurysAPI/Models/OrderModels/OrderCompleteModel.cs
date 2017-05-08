@@ -15,5 +15,6 @@ namespace FurysAPI.Models.OrderModels
         [Required]
         public int OrderNumber { get; set; }
 
+        public Guid OrderId { get; set; }
     }
 }

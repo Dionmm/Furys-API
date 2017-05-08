@@ -16,7 +16,7 @@ namespace FurysAPI.Models
         DrinkModel Create(Drink drink);
         IEnumerable<DrinkModel> Create(IEnumerable<Drink> drinks);
         IEnumerable<Drink> Create(IEnumerable<DrinkModel> models);
-        OrderCompleteModel Create(string result, string word, int orderNumber);
+        OrderCompleteModel Create(string result, string word, int orderNumber, Guid orderId);
         IEnumerable<OrderAdminMultiModel> Create(IEnumerable<Order> orders);
 
         OrderAdminDetailModel Create(IQueryable orderDetails);
