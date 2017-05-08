@@ -60,5 +60,23 @@ namespace FurysAPI.Models
                 OrderWord = word
             };
         }
+
+        public IEnumerable<OrderAdminMultiModel> Create(IEnumerable<Order> orders)
+        {
+            return orders.Select(order => new OrderAdminMultiModel
+            {
+                Id = order.Id,
+                OrderNumber = order.OrderNumber
+            });
+        }
+
+        public OrderAdminDetailModel Create(IQueryable orderDetails)
+        {
+            var x = orderDetails;
+            return new OrderAdminDetailModel
+            {
+                
+            };
+        }
     }
 }

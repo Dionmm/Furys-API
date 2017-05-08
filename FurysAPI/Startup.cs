@@ -18,6 +18,7 @@ namespace FurysAPI
             var config = new HttpConfiguration();
             WebApiConfig.Register(config);
             //app.MapSignalR();
+
             app.Map("/signalr", map =>
             {
                 map.UseCors(CorsOptions.AllowAll);
@@ -25,6 +26,8 @@ namespace FurysAPI
                 map.RunSignalR(hubConfiguration);
 
             });
+
+
             app.UseCors(CorsOptions.AllowAll);
             ConfigureAuth(app);
             app.UseWebApi(config);

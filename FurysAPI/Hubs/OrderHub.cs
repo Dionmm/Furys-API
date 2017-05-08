@@ -10,6 +10,7 @@ using FurysAPI.DataAccess;
 using FurysAPI.DataAccess.DataContext;
 using FurysAPI.DataAccess.Entities;
 using FurysAPI.Models;
+using FurysAPI.Models.OrderModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.SignalR;
@@ -25,39 +26,39 @@ namespace FurysAPI.Hubs
         private IUnitOfWork _unitOfWork;
         private IModelFactory _modelFactory = new ModelFactory();
 
-        public ApplicationUserManager UserManager
+        private ApplicationUserManager UserManager
         {
             get { return _userManager ?? new ApplicationUserManager(new UserStore<User>(_context)); }
             set { _userManager = value; }
         }
 
-        public User CurrentUser { get; set; }
-
-        public void GetToken()
+        private IUnitOfWork UnitOfWork
         {
-            try
-            {
-                var token = Context.Request.QueryString.Get("bearerToken");
-                if (token != null && token != "undefined")
-                {
-                    var tk = Startup.OAuthOptions.AccessTokenFormat.Unprotect(token);
-                    var principal = new ClaimsPrincipal(tk.Identity);
-                    SetUser(principal);
-                }
-            }
-            catch (Exception)
-            {
-                System.Diagnostics.Debug.WriteLine("No token");
-                Clients.Caller.error("Server error occurred");
-            }
+            get { return _unitOfWork ?? new UnitOfWork(_context); }
+            set { _unitOfWork = value; }
         }
 
-        public void SetUser(ClaimsPrincipal user)
+        private User CurrentUser { get; set; }
+
+        //The auth token needs to be sent as a query string with the initial connection request
+        //this then grabs it and creates a user object to be used as authorisation
+        private void GetToken()
+        {
+            var token = Context.Request.QueryString.Get("bearerToken");
+            if (token != null && token != "undefined")
+            {
+                var tk = Startup.OAuthOptions.AccessTokenFormat.Unprotect(token);
+                var principal = new ClaimsPrincipal(tk.Identity);
+                SetUser(principal);
+            }
+
+        }
+
+        private void SetUser(ClaimsPrincipal user)
         {
             var username = user.Identity.Name;
             if (username != null)
             {
-                _unitOfWork = new UnitOfWork(_context);
                 CurrentUser = UserManager.FindByName(username);
             }
             else
@@ -69,15 +70,46 @@ namespace FurysAPI.Hubs
 
         public override Task OnConnected()
         {
-            GetToken();
-            Clients.Caller.test(CurrentUser.FirstName + " logged in.");
+            try
+            {
+                GetToken();
+                Clients.Caller.displayOrders(GetOrders());
+            }
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine("No token");
+                Clients.Caller.error("Server error occurred");
+            }
+
             return base.OnConnected();
         }
 
-
-        public void Hello()
+        public void OrderDetails(Guid id)
         {
-            Clients.All.hello("hello");
+            try
+            {
+                Clients.Caller.orderDetails("testing "+ id);
+
+                var order = UnitOfWork.Orders.GetOrderDetails(id);
+                
+
+                Clients.Caller.orderDetails(order);
+            }
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine("No username");
+                Clients.Caller.error("Username not found");
+            }
         }
+
+        private IEnumerable<OrderAdminMultiModel> GetOrders()
+        {
+            var orders = UnitOfWork.Orders.GetAll();
+
+            var models = _modelFactory.Create(orders);
+
+            return models;
+        }
+
     }
 }

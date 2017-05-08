@@ -225,6 +225,8 @@
     <Compile Include="Models\DrinkModels\DrinkModel.cs" />
     <Compile Include="Models\IModelFactory.cs" />
     <Compile Include="Models\ModelFactory.cs" />
+    <Compile Include="Models\OrderModels\OrderAdminDetailModel.cs" />
+    <Compile Include="Models\OrderModels\OrderAdminMultiModel.cs" />
     <Compile Include="Models\OrderModels\OrderCompleteModel.cs" />
     <Compile Include="Models\OrderModels\OrderModel.cs" />
     <Compile Include="Models\UserModels\ChangeNameBindingModel.cs" />
