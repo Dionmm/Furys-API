@@ -57,7 +57,16 @@ namespace FurysAPI.DataAccess.Repositories
             };
 
             return model;
+        }
 
+        public IEnumerable<Order> GetUncollectedOrders()
+        {
+            return Context.Orders.OrderBy(d => d.CreatedDateTime).Where(o => o.Collected == false).ToList();
+        }
+
+        public Order GetPreviousOrder()
+        {
+            return Context.Orders.OrderByDescending(d => d.CreatedDateTime).First();
         }
     }
 }

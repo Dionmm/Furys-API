@@ -62,6 +62,7 @@ namespace FurysAPI.Migrations
             var jack = new User
             {
                 UserName = "JackBlack",
+                FirstName = "Jack",
                 Email = "jack@macinty.re",
                 PhoneNumber = "07881913134",
                 Birthday = Convert.ToDateTime("13/10/1994", timezone),
@@ -212,7 +213,7 @@ namespace FurysAPI.Migrations
                 OrderNumber = 33,
                 OrderWord = "Explorer",
                 TotalCost = 6,
-                User = jack,
+                User = dion,
                 Paid = false
             };
 

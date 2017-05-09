@@ -12,6 +12,7 @@ namespace FurysAPI.DataAccess.Entities
         public virtual bool Paid { get; set; }
         public virtual bool Completed { get; set; } //If the order has been successfully fulfilled by the bar staff
         public virtual DateTime OrderCompletedTime { get; set; }
+        public virtual bool Collected { get; set; }
         public virtual int OrderNumber { get; set; }
         public virtual string OrderWord { get; set; } //The random word of the day that was active when this order was submitted
         public virtual ICollection<BasketContents> BasketContents { get; set; }

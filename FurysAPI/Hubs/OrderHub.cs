@@ -40,39 +40,12 @@ namespace FurysAPI.Hubs
 
         private User CurrentUser { get; set; }
 
-        //The auth token needs to be sent as a query string with the initial connection request
-        //this then grabs it and creates a user object to be used as authorisation
-        private void GetToken()
-        {
-            var token = Context.Request.QueryString.Get("bearerToken");
-            if (token != null && token != "undefined")
-            {
-                var tk = Startup.OAuthOptions.AccessTokenFormat.Unprotect(token);
-                var principal = new ClaimsPrincipal(tk.Identity);
-                SetUser(principal);
-            }
-
-        }
-
-        private void SetUser(ClaimsPrincipal user)
-        {
-            var username = user.Identity.Name;
-            if (username != null)
-            {
-                CurrentUser = UserManager.FindByName(username);
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("No username");
-                Clients.Caller.error("Username not found");
-            }
-        }
-
         public override Task OnConnected()
         {
             try
             {
                 GetToken();
+                AddToGroup();
                 Clients.Caller.displayOrders(GetOrders());
             }
             catch (Exception)
@@ -102,13 +75,115 @@ namespace FurysAPI.Hubs
             }
         }
 
+        public void NewOrder(string id)
+        {
+            try
+            {
+                Clients.User(UserManager.FindByName("JackBlack").Id).error(id);
+            }
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine("No username");
+                Clients.Caller.error("Server error occured");
+            }
+        }
+
+        public void OrderComplete(Guid id)
+        {
+            try
+            {
+                var order = UnitOfWork.Orders.Get(id);
+                order.Completed = true;
+                order.OrderCompletedTime = DateTime.Now;
+                order.UpdatedDateTime = DateTime.Now;
+         
+                
+
+                if (UnitOfWork.Save() == 0)
+                {
+                    throw new Exception();
+                }
+                var response = new Dictionary<string, string>
+                {
+                    {"success", "true"},
+                    {"orderId", order.Id.ToString() }
+                };
+                Clients.Group(order.User.UserName).orderComplete(response);
+                Clients.Group("JackBlack").orderComplete(response);
+            }
+            catch (Exception)
+            {
+                Clients.Caller.error("Server error occured");
+            }
+        }
+
+        public void OrderCollected(Guid id)
+        {
+            try
+            {
+                var order = UnitOfWork.Orders.Get(id);
+                order.Collected = true;
+                order.UpdatedDateTime = DateTime.Now;
+
+                if (UnitOfWork.Save() == 0)
+                {
+                    throw new Exception();
+                }
+                var response = new Dictionary<string, string>
+                {
+                    {"success", "true"},
+                    {"orderId", order.Id.ToString() }
+                };
+                Clients.Group(order.User.UserName).orderComplete(response);
+                Clients.Group("JackBlack").orderCollected(response);
+            }
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine("No username");
+                Clients.Caller.error("Server error occured");
+            }
+        }
+
+        //The auth token needs to be sent as a query string with the initial connection request
+        //this then grabs it and creates a user object to be used as authorisation
+        private void GetToken()
+        {
+            var token = Context.Request.QueryString.Get("bearerToken");
+            if (token != null && token != "undefined")
+            {
+                var tk = Startup.OAuthOptions.AccessTokenFormat.Unprotect(token);
+                var principal = new ClaimsPrincipal(tk.Identity);
+                SetUser(principal);
+            }
+
+        }
+
+        private void SetUser(ClaimsPrincipal user)
+        {
+            var username = user.Identity.Name;
+            if (username != null)
+            {
+                CurrentUser = UserManager.FindByName(username);
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("No username");
+                Clients.Caller.error("Username not found");
+            }
+        }
+
         private IEnumerable<OrderAdminMultiModel> GetOrders()
         {
-            var orders = UnitOfWork.Orders.GetAll();
+            var orders = UnitOfWork.Orders.GetUncollectedOrders();
 
             var models = _modelFactory.Create(orders);
 
             return models;
+        }
+
+        private void AddToGroup()
+        {
+            Groups.Add(Context.ConnectionId, CurrentUser.UserName);
         }
 
     }

@@ -74,6 +74,11 @@ namespace FurysAPI.Controllers
                 return BadRequest();
             }
 
+
+            //Bit of a bad way to auto increment ordernumber
+            var lastOrderNumber = UnitOfWork.Orders.GetPreviousOrder().OrderNumber + 1;
+
+
             //Only way i can think to store OrderCompletedTime before it is completed is to
             //set it to max value, anything greater than todays date is not complete. 
             //Cant use nulls in datetime type
@@ -83,7 +88,7 @@ namespace FurysAPI.Controllers
                 CreatedDateTime = DateTime.Now,
                 UpdatedDateTime = DateTime.Now,
                 OrderCompletedTime = DateTime.MaxValue,
-                OrderNumber = 1,
+                OrderNumber = lastOrderNumber,
                 OrderWord = "Humorous",
                 TotalCost = drinks.Sum(drink => drink.Price),
                 Paid = false,
