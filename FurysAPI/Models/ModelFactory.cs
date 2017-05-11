@@ -71,12 +71,12 @@ namespace FurysAPI.Models
             });
         }
 
-        public OrderAdminDetailModel Create(IQueryable orderDetails)
+        public OrderAdminMultiModel Create(Order order)
         {
-            var x = orderDetails;
-            return new OrderAdminDetailModel
+            return new OrderAdminMultiModel
             {
-                
+                Id = order.Id,
+                OrderNumber = order.OrderNumber
             };
         }
     }

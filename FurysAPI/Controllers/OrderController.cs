@@ -96,24 +96,8 @@ namespace FurysAPI.Controllers
                 User = currentUser
             };
             UnitOfWork.Orders.Add(order);
-
-            //Remove between here
-            var myToken = new StripeTokenCreateOptions
-            {
-                Card = new StripeCreditCardOptions()
-                {
-                    Number = "4242424242424242",
-                    ExpirationYear = "2022",
-                    ExpirationMonth = "10",
-                    Cvc = "123"
-                }
-            };
-
-            var tokenService = new StripeTokenService();
-            var stripeToken = tokenService.Create(myToken);
-            //Remove
-
-            var stripeCharge = CreateStripeCharge(order, stripeToken.Id);
+            
+            var stripeCharge = CreateStripeCharge(order, model.Token);
             if (stripeCharge == "succeeded")
             {
                 order.Paid = true;

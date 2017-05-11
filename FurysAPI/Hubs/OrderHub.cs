@@ -46,12 +46,13 @@ namespace FurysAPI.Hubs
             {
                 GetToken();
                 AddToGroup();
+                Clients.All.userConnected(CurrentUser.UserName + " Joined");
                 Clients.Caller.displayOrders(GetOrders());
             }
             catch (Exception)
             {
                 System.Diagnostics.Debug.WriteLine("No token");
-                Clients.Caller.error("Server error occurred");
+                Clients.Caller.error("Server error occurred 1");
             }
 
             return base.OnConnected();
@@ -75,16 +76,18 @@ namespace FurysAPI.Hubs
             }
         }
 
-        public void NewOrder(string id)
+        public void NewOrder(Guid id)
         {
             try
             {
-                Clients.User(UserManager.FindByName("JackBlack").Id).error(id);
+                var order = UnitOfWork.Orders.Get(id);
+                var model = _modelFactory.Create(order);
+                Clients.Group("JackBlack").newOrder(model);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("No username");
-                Clients.Caller.error("Server error occured");
+                System.Diagnostics.Debug.WriteLine("No order");
+                Clients.Caller.error("Server error occured when finding order");
             }
         }
 
@@ -134,7 +137,7 @@ namespace FurysAPI.Hubs
                     {"success", "true"},
                     {"orderId", order.Id.ToString() }
                 };
-                Clients.Group(order.User.UserName).orderComplete(response);
+                Clients.Group(order.User.UserName).orderCollected(response);
                 Clients.Group("JackBlack").orderCollected(response);
             }
             catch (Exception)
@@ -154,6 +157,10 @@ namespace FurysAPI.Hubs
                 var tk = Startup.OAuthOptions.AccessTokenFormat.Unprotect(token);
                 var principal = new ClaimsPrincipal(tk.Identity);
                 SetUser(principal);
+            }
+            else
+            {
+                Clients.Caller.error("No token");
             }
 
         }
